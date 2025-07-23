@@ -28,6 +28,8 @@
     async function loadListings() {
       const { data, error } = await supabase.from('listings').select('*');
       console.log("LISTINGS:", data);
+      listingsContainer.innerHTML = '<p>TEST MODE: Listings section loaded.</p>';
+
       console.log("ERROR:", error);
 
       if (error) {
