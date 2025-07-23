@@ -29,11 +29,10 @@
     console.log("Raw Supabase Response:");
     console.log("Data:", data);
     console.log("Error:", error);
-    alert(`Listings length: ${data?.length || 0}`);
+    
 
     console.log("LISTINGS:", data);
-    listingsContainer.innerHTML = '<p>TEST MODE: Listings section loaded.</p>';
-
+    
     console.log("ERROR:", error);
 
       if (error) {
@@ -43,8 +42,8 @@
       }
 
       if (data.length === 0) {
-        listingsContainer.innerHTML = '<p>No listings found.</p>';
-        return;
+      listingsContainer.innerHTML = '<p>No listings found.</p>';
+      return;
       }
 
       data.forEach(listing => {
