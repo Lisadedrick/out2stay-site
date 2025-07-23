@@ -1,4 +1,3 @@
-<!-- 👇 THIS is the one with the debug box -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,7 @@
     .listing { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .listing img { width: 100%; max-width: 400px; border-radius: 8px; }
     .listing h2 { margin-top: 0; }
-    #debug { background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; margin-top: 20px; font-size: 0.9em; color: #856404; }
+    #debug { display: none; }
   </style>
 </head>
 <body>
@@ -31,6 +30,7 @@
     async function loadListings() {
       const { data, error } = await supabase.from('listings').select('*');
 
+      // Show raw output for debugging
       debugContainer.innerText = `DEBUG:\nListings Length: ${data?.length || 0}\n\nData: ${JSON.stringify(data, null, 2)}\n\nError: ${error ? JSON.stringify(error, null, 2) : 'None'}`;
 
       if (error) {
