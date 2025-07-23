@@ -1,3 +1,4 @@
+<!-- 👇 THIS is the one with the debug box -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +11,13 @@
     .listing { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .listing img { width: 100%; max-width: 400px; border-radius: 8px; }
     .listing h2 { margin-top: 0; }
+    #debug { background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; margin-top: 20px; font-size: 0.9em; color: #856404; }
   </style>
 </head>
 <body>
   <h1>Available Housing Listings</h1>
   <div id="listings"></div>
+  <div id="debug"></div>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -23,27 +26,21 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsbW9ubW1uYmRucWVqcG1lZXNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTk1MzcsImV4cCI6MjA2ODg3NTUzN30.BLVs4L_TbabeJYAuWV3nkaa-uBLyinxy8_RbjxboAFA';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const listingsContainer = document.getElementById('listings');
+    const debugContainer = document.getElementById('debug');
 
     async function loadListings() {
-    const { data, error } = await supabase.from('listings').select('*');
-    console.log("Raw Supabase Response:");
-    console.log("Data:", data);
-    console.log("Error:", error);
-    
+      const { data, error } = await supabase.from('listings').select('*');
 
-    console.log("LISTINGS:", data);
-    
-    console.log("ERROR:", error);
+      debugContainer.innerText = `DEBUG:\nListings Length: ${data?.length || 0}\n\nData: ${JSON.stringify(data, null, 2)}\n\nError: ${error ? JSON.stringify(error, null, 2) : 'None'}`;
 
       if (error) {
         listingsContainer.innerHTML = '<p>Error loading listings. Check console.</p>';
-        console.error(error);
         return;
       }
 
-      if (data.length === 0) {
-      listingsContainer.innerHTML = '<p>No listings found.</p>';
-      return;
+      if (!data || data.length === 0) {
+        listingsContainer.innerHTML = '<p>No listings found.</p>';
+        return;
       }
 
       data.forEach(listing => {
