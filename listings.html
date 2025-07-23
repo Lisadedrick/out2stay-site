@@ -27,6 +27,9 @@
 
     async function loadListings() {
       const { data, error } = await supabase.from('listings').select('*');
+      console.log("LISTINGS:", data);
+      console.log("ERROR:", error);
+
       if (error) {
         listingsContainer.innerHTML = '<p>Error loading listings. Check console.</p>';
         console.error(error);
